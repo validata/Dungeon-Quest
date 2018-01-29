@@ -7,28 +7,30 @@ class Main:
         self.account_pw = ""
         self.character_id = 0
         self.character_name = ""
+        self.character_class = ""
         self.dungeon_size = 0
         self.dungeon_corner = ""
 
     def menu_start(self):
         while True:
-            print("Main Menu")
+            print("# Main Menu #")
             choice = validate(["Login", "Signup", "Exit"])
             if not choice:
                 self.menu_start()
 
             elif choice == 1:
+                clear_cmd()
                 username = input("Enter username\n")
                 password = input("Enter Password\n")
                 if c.account_login(username, password):
-                    print("Login ok")
+                    clear_cmd()
                     if self.menu_character():
                         if self.menu_dungeon_start():
                             print("Battle ready to begin!")
                         else:
                             print("error1")
                     else:
-                        print("error2")
+                        print("Login failed")
                 else:
                     print("Password incorrect")
                     self.menu_start()
@@ -67,6 +69,7 @@ class Main:
         print("# Character Menu #")
         choice = validate(["Existing Character", "New Character"])
         if choice:
+            clear_cmd()
             if choice == 1:
                 character_existing = self.character_existing()          # User selects existing character
                 if character_existing:
@@ -75,8 +78,9 @@ class Main:
                     print("Error selecting char")
                     return False
             if choice == 2:
-                if self.menu_character_new():               # User creates new character
-                    print("Successfully created character")
+                if self.menu_character_new():
+                    print("Character: " + self.character_name + ", Class: " + self.character_class + " was born!")
+                    print("Preparing for battle.\n")
                     return True
                 else:
                     print("Failure creating character")
@@ -84,10 +88,10 @@ class Main:
             return True
         else:
             clear_cmd()
+            "No choice"
             self.menu_character()
 
     def account_login(self):
-        clear_cmd()
         print("# Account Login #")
         account_name = input("Account Name:\n")
         account_pw = input("Account Password:\n")
@@ -102,7 +106,6 @@ class Main:
             return False
 
     def account_create(self):
-        clear_cmd()
         print("# Create Account #")
         account_name = input("Account Name: \n")
         account_pw = input("Account Password: \n")
@@ -115,7 +118,6 @@ class Main:
             return False
 
     def account_create_to_login(self):
-        clear_cmd()
         if c.account_login(self.account_name, self.account_pw):
             print("Account created and logged in!\nUsername : " + str(self.account_name))
             print("Create your first character now:")
@@ -125,14 +127,14 @@ class Main:
             return False
 
     def character_existing(self):
-        clear_cmd()
         print("# Select a character #")
         # TODO GET REAL LIST OF CHARS
         character_list = c.character_list()
         if character_list:
             character_select_id = input("Select your character by ID:\n")
             if character_select_id:
-                print("Selected character is: " + character_select_id)
+                clear_cmd()
+                print("Selected character is: " + character_select_id + "\n")
                 return True
             else:
                 clear_cmd()
@@ -144,33 +146,38 @@ class Main:
             return False
 
     def menu_character_new(self):
-        clear_cmd()
         print("# Create new character #")
         choice = validate(["Warrior", "Thief", "Wizard"])
         if choice:
+            clear_cmd()
             if choice == 1:
-                print("Warrior born")
+                self.character_class = "Warrior"
             elif choice == 2:
-                print("Thief born")
+                self.character_class = "Thief"
             elif choice == 3:
-                print("Wizard born")
+                self.character_class = "Wizard"
+            print("")
             return True
         else:
+            print("Else in menu character new")
             self.menu_character_new()
             print("Fix this if you see it!")
             return False
 
     def menu_dungeon_start(self):
-        clear_cmd()
         print("# Dungeon Size #")
         choice_dungeon_size = validate(["Small", "Medium", "Large"])
         if choice_dungeon_size:
             if c.dungeon_size_set(choice_dungeon_size):
+                self.dungeon_size = choice_dungeon_size
+                clear_cmd()
+                print("Selected size: " + str(choice_dungeon_size) + "\n")  # TODO, 1 should print small, 2 medium etc
                 print("Map size set" + str(self.dungeon_corner))
                 choice_dungeon_corner = validate(["North West", "North East", "South West", "South East"])
                 if choice_dungeon_corner:
+                    clear_cmd()
                     self.dungeon_corner = choice_dungeon_corner
-                    print("Corner set: " + str(self.dungeon_corner))
+                    print("Corner set: " + str(self.dungeon_corner) + "\n") # TODO, 1 should be NW etc
                     return True
                 else:
                     print("error")
@@ -194,7 +201,7 @@ class Main:
 
 
 def clear_cmd():
-    print("\n" * 1)
+    print("*clearing window*" + "\n" * 3)
 
 
 def validate(menu_choices):
@@ -209,7 +216,8 @@ def validate(menu_choices):
             else:
                 raise ValueError
         except ValueError:
-            print("\nNot a valid number!")
+            clear_cmd()
+            print("\nNot a valid number!\n")
             return False
         except TypeError:
             return False
