@@ -169,9 +169,14 @@ class Main:
         choice_dungeon_size = validate(["Small", "Medium", "Large"])
         if choice_dungeon_size:
             if c.dungeon_size_set(choice_dungeon_size):
-                self.dungeon_size = choice_dungeon_size
+                if choice_dungeon_size == 1:
+                    self.choice_dungeon_size = "Small"
+                elif choice_dungeon_size == 2:
+                    self.choice_dungeon_size = "Medium"
+                else:
+                    self.choice_dungeon_size = "Large"
                 clear_cmd()
-                print("Selected size: " + str(choice_dungeon_size) + "\n")  # TODO, 1 should print small, 2 medium etc
+                print("Selected size: " + str(self.choice_dungeon_size) + "\n")  # TODO, 1 should print small, 2 medium etc
                 print("Map size set" + str(self.dungeon_corner))
                 choice_dungeon_corner = validate(["North West", "North East", "South West", "South East"])
                 if choice_dungeon_corner:
