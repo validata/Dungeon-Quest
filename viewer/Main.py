@@ -34,13 +34,9 @@ class Main:
                     self.menu_start()
 
             elif choice == 2:
-                username = input("Enter new username:\n")
-                password = input("Enter new password:\n")
-                if c.account_create(username, password):
+                if self.account_create():
                     clear_cmd()
-                    self.account_name =username
-                    self.account_pw = password
-                    if c.account_login(username, password):
+                    if self.account_login():
                         print("Acc created and logged in")
                         print("Please create your first char now")
                         if self.menu_character_new():
@@ -120,7 +116,6 @@ class Main:
 
     def account_create_to_login(self):
         if c.account_login(self.account_name, self.account_pw):
-            print("Account created and logged in!\nUsername : " + str(self.account_name))
             print("Create your first character now:")
             return True
         else:
