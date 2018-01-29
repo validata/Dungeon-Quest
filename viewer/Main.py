@@ -36,24 +36,17 @@ class Main:
             elif choice == 2:
                 if self.account_create():
                     clear_cmd()
-                    if self.account_login():
-                        print("Acc created and logged in")
-                        print("Please create your first char now")
-                        if self.menu_character_new():
-                            print("Char created!")
-                            if self.menu_character():
-                                print("Char menu")
-                                if self.menu_dungeon_start():
-                                    print("Dungeon settings created - LOAD THE GAME!")
+                    if self.menu_character_new():
+                        print("Char created!")
+                        if self.menu_character():
+                            print("Char menu")
+                            if self.menu_dungeon_start():
+                                print("Dungeon settings created - LOAD THE GAME!")
                             else:
                                 print("Failed")
                                 self.menu_start()
-                        else:
-                            print("Error new char")
-
                     else:
-                        print("Couldn't login")
-                        self.menu_start()
+                        print("Error new char")
                 else:
                     print("Try again")
                     self.menu_start()
@@ -109,14 +102,19 @@ class Main:
         if c.account_create(account_name, account_pw):
             self.account_name = account_name
             self.account_pw = account_pw
-            return True
+            clear_cmd()
+            print("You have created the account " + self.account_name + "! \n")
+            print("Please create your first char now:")
+            if self.account_login():
+                return True
+            else:
+                return False
         else:
             print("New account fail")
             return False
 
     def account_create_to_login(self):
         if c.account_login(self.account_name, self.account_pw):
-            print("Create your first character now:")
             return True
         else:
             print("Error trying to login!")
