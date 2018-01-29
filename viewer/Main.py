@@ -8,7 +8,7 @@ class Main:
         self.character_id = 0
         self.character_name = ""
         self.character_class = ""
-        self.dungeon_size = 0
+        self.dungeon_size = ""
         self.dungeon_corner = ""
 
     def menu_start(self):
@@ -168,28 +168,29 @@ class Main:
         print("# Dungeon Size #")
         choice_dungeon_size = validate(["Small", "Medium", "Large"])
         if choice_dungeon_size:
-            if c.dungeon_size_set(choice_dungeon_size):
-                if choice_dungeon_size == 1:
-                    self.choice_dungeon_size = "Small"
-                elif choice_dungeon_size == 2:
-                    self.choice_dungeon_size = "Medium"
-                else:
-                    self.choice_dungeon_size = "Large"
+            if choice_dungeon_size == 1:
+                self.dungeon_size = "Small"
+            elif choice_dungeon_size == 2:
+                self.dungeon_size = "Medium"
+            elif choice_dungeon_size == 3:
+                self.dungeon_size = "Large"
+            clear_cmd()
+            print("Dungeon size set: " + str(self.dungeon_size) + "\n")
+            c.dungeon_size = choice_dungeon_size
+            choice_dungeon_corner = validate(["North West", "North East", "South West", "South East"])
+            if choice_dungeon_corner:
+                if choice_dungeon_corner == 1:
+                    self.dungeon_corner = "North West"
+                elif choice_dungeon_corner == 2:
+                    self.dungeon_corner = "North East"
+                elif choice_dungeon_corner == 3:
+                    self.dungeon_corner = "South West"
+                elif choice_dungeon_corner == 4:
+                    self.dungeon_corner = "South East"
                 clear_cmd()
-                print("Selected size: " + str(self.choice_dungeon_size) + "\n")  # TODO, 1 should print small, 2 medium etc
-                print("Map size set" + str(self.dungeon_corner))
-                choice_dungeon_corner = validate(["North West", "North East", "South West", "South East"])
-                if choice_dungeon_corner:
-                    clear_cmd()
-                    self.dungeon_corner = choice_dungeon_corner
-                    print("Corner set: " + str(self.dungeon_corner) + "\n") # TODO, 1 should be NW etc
-                    return True
-                else:
-                    print("error")
-                    pass
-            else:
-                print("error")
-                pass
+                print("Dungeon size: " + str(self.dungeon_size))
+                print("Map size set" + str(self.dungeon_corner) + "\n")
+                return True
         else:
             print("Not a valid size")
             self.menu_dungeon_start()
