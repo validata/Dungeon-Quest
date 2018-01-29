@@ -20,9 +20,7 @@ class Main:
 
             elif choice == 1:
                 clear_cmd()
-                username = input("Enter username\n")
-                password = input("Enter Password\n")
-                if c.account_login(username, password):
+                if self.account_login():
                     clear_cmd()
                     if self.menu_character():
                         if self.menu_dungeon_start():
@@ -39,6 +37,9 @@ class Main:
                 username = input("Enter new username:\n")
                 password = input("Enter new password:\n")
                 if c.account_create(username, password):
+                    clear_cmd()
+                    self.account_name =username
+                    self.account_pw = password
                     if c.account_login(username, password):
                         print("Acc created and logged in")
                         print("Please create your first char now")
