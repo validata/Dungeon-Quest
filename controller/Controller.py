@@ -3,7 +3,6 @@
 class Controller:
     def __init__(self):
         self.account = None     # Account object
-
         self.account_id = 1
         self.account_pw = 2
         self.account_name = "Account name"
