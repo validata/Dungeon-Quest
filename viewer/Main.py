@@ -191,6 +191,9 @@ class Main:
                 print("Dungeon size: " + str(self.dungeon_size))
                 print("Map size set" + str(self.dungeon_corner) + "\n")
                 return True
+            else:
+                print("There are only four corners!")
+                self.menu_dungeon_start()
         else:
             print("Not a valid size")
             self.menu_dungeon_start()
