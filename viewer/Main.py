@@ -23,8 +23,11 @@ class Main:
                 if self.account_login():
                     clear_cmd()
                     if self.menu_character():
-                        if self.menu_dungeon_start():
-                            print("Battle ready to begin!")
+                        if self.menu_dungeon_size():
+                                if self.menu_dungeon_corner():
+                                    print("Battle ready to begin!")
+                                else:
+                                    print("error2")
                         else:
                             print("error1")
                     else:
@@ -40,13 +43,20 @@ class Main:
                         print("Char created!")
                         if self.menu_character():
                             print("Char menu")
-                            if self.menu_dungeon_start():
-                                print("Dungeon settings created - LOAD THE GAME!")
+                            if self.menu_dungeon_size():
+                                print("Size menu?")
+                                if self.menu_dungeon_corner():
+                                    print("Dungeon settings created - LOAD THE GAME!")
+                                else:
+                                        print("Failed")
+                                        self.menu_start()
                             else:
-                                print("Failed")
+                                print("Failed on size")
                                 self.menu_start()
                     else:
                         print("Error new char")
+                        self.menu_character_new()
+                        print("After error new char")
                 else:
                     print("Try again")
                     self.menu_start()
@@ -105,7 +115,7 @@ class Main:
             clear_cmd()
             print("You have created the account " + self.account_name + "! \n")
             print("Please create your first char now:")
-            if self.account_login():
+            if self.account_create_to_login():
                 return True
             else:
                 return False
@@ -154,13 +164,12 @@ class Main:
             return True
         else:
             print("Else in menu character new")
-            self.menu_character_new()
             print("Fix this if you see it!")
             return False
 
-    def menu_dungeon_start(self):
-        print("# Dungeon Size #")
-        choice_dungeon_size = validate(["Small", "Medium", "Large"])
+    def menu_dungeon_size(self):
+        print("# Select Dungeon Size #")
+        choice_dungeon_size = validate(["Small Dungeon", "Medium Dungeon", "Large Dungeon"])
         if choice_dungeon_size:
             if choice_dungeon_size == 1:
                 self.dungeon_size = "Small"
@@ -171,26 +180,32 @@ class Main:
             clear_cmd()
             print("Dungeon size set: " + str(self.dungeon_size) + "\n")
             c.dungeon_size = choice_dungeon_size
-            choice_dungeon_corner = validate(["North West", "North East", "South West", "South East"])
-            if choice_dungeon_corner:
-                if choice_dungeon_corner == 1:
-                    self.dungeon_corner = "North West"
-                elif choice_dungeon_corner == 2:
-                    self.dungeon_corner = "North East"
-                elif choice_dungeon_corner == 3:
-                    self.dungeon_corner = "South West"
-                elif choice_dungeon_corner == 4:
-                    self.dungeon_corner = "South East"
-                clear_cmd()
-                print("Dungeon size: " + str(self.dungeon_size))
-                print("Map size set" + str(self.dungeon_corner) + "\n")
-                return True
-            else:
-                print("There are only four corners!")
-                self.menu_dungeon_start()
+            return True
+
         else:
             print("Not a valid size")
-            self.menu_dungeon_start()
+            self.menu_dungeon_size()
+
+    def menu_dungeon_corner(self):
+        print("# Select Entrypoint to the Dungeon #")
+        choice_dungeon_corner = validate(["North Western Sewers", "North Eastern Gate", "South Western Trapdoor", "South Eastern Narrow Passage"])
+        if choice_dungeon_corner:
+            if choice_dungeon_corner == 1:
+                self.dungeon_corner = "North West"
+            elif choice_dungeon_corner == 2:
+                self.dungeon_corner = "North East"
+            elif choice_dungeon_corner == 3:
+                self.dungeon_corner = "South West"
+            elif choice_dungeon_corner == 4:
+                self.dungeon_corner = "South East"
+            clear_cmd()
+            print("You have chosen " + str(self.dungeon_corner) + "\n")
+            c.dungeon_corner = choice_dungeon_corner
+            return True
+        else:
+            print("There are only four corners!")
+            self.menu_dungeon_corner()
+        #"Character: " + self.character_name + ", Class: " + self.character_class + " was born!")
 
     def menu_exit_program(self):
         clear_cmd()
