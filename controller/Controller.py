@@ -68,12 +68,12 @@ class Controller:
     def dungeon_size_set(self, dungeon_size):
         if not dungeon_size == 1 and 2 and 3:
             return False
-        if dungeon_size == 1:
-            self.dungeon_size = 1
-        elif dungeon_size == 2:
-            self.dungeon_size = 2
+        if dungeon_size == "Small":
+            self.dungeon_size = 4
+        elif dungeon_size == "Medium":
+            self.dungeon_size = 5
         else:
-            self.dungeon_size = 3
+            self.dungeon_size = 6
         return True
 
     def dungeon_corner(self, dungeon_corner):
